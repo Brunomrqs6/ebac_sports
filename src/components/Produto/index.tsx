@@ -1,9 +1,11 @@
 import { useDispatch } from 'react-redux'
 import { Produto as ProdutoType } from '../../App'
 import * as S from './styles'
+import { useGetProdutosQuery } from '../../services/api'
 
 import { adicionar } from '../../store/reducers/carrinho'
 import { adicionarFavorito } from '../../store/reducers/favoritos'
+import { useState } from 'react'
 
 type Props = {
   produto: ProdutoType
@@ -15,8 +17,9 @@ export const paraReal = (valor: number) =>
     valor
   )
 
-const ProdutoComponent = ({ produto, estaNosFavoritos }: Props) => {
+const ProdutoComponent = ({ produto }: Props) => {
   const dispatch = useDispatch()
+  const [estaNosFavoritos, setEstaNosFavoritos] = useState(false)
 
   return (
     <S.Produto>
@@ -28,7 +31,10 @@ const ProdutoComponent = ({ produto, estaNosFavoritos }: Props) => {
         <strong>{paraReal(produto.preco)}</strong>
       </S.Prices>
       <S.BtnComprar
-        onClick={() => dispatch(adicionarFavorito(produto))}
+        onClick={() => {
+          dispatch(adicionarFavorito(produto))
+          setEstaNosFavoritos(!estaNosFavoritos)
+        }}
         type="button"
       >
         {estaNosFavoritos

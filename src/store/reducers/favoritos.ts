@@ -21,7 +21,7 @@ const favoritosSlice = createSlice({
         const favoritosSemProduto = state.itens.filter(
           (p) => p.id !== produto1.id
         )
-        state.itens.concat(...favoritosSemProduto)
+        state.itens = favoritosSemProduto
       } else {
         state.itens.push(produto1)
       }
